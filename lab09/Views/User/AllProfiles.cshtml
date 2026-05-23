@@ -5,7 +5,7 @@
 <h1>Użytkownicy</h1>
 
 <ul>
-    @foreach (var profile in (List<string>)ViewData["Profiles"])
+    @foreach (var profile in (List<string>)ViewData["Profiles"]!)
     {
         <li>
             <a href="/User/Profile?username=@profile">@profile</a>

@@ -28,8 +28,8 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="d-flex gap-2 align-items-center">
-                    <a asp-controller="User" asp-action="Profile" asp-route-username="@wpis.Login">
-                        <strong>@wpis.Login</strong>
+                    <a asp-controller="User" asp-action="Profile" asp-route-username="@wpis.Login.LoginName">
+                        <strong>@wpis.Login.LoginName</strong>
                     </a>
                     @if (wpis.PostInfo?.CzyPytanie == true)
                     {
@@ -56,8 +56,8 @@
                     @foreach (var reply in replies)
                     {
                         <div class="mb-2">
-                            <a asp-controller="User" asp-action="Profile" asp-route-username="@reply.Login">
-                                <strong>@reply.Login</strong>
+                            <a asp-controller="User" asp-action="Profile" asp-route-username="@reply.Login.LoginName">
+                                <strong>@reply.Login.LoginName</strong>
                             </a>
                             <small class="text-muted ms-2">@reply.Data</small>
                             <p class="mb-0">@reply.Tresc</p>

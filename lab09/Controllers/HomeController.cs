@@ -22,6 +22,8 @@ public class HomeController : Controller
         var query = _context.Posts
             .Include(p => p.PostInfo)
             .Include(p => p.Replies)
+            .Include(r => r.Login)
+            .Include(p => p.Login)
             .AsQueryable();
 
         if (bezOdpowiedzi == true)
@@ -53,22 +55,26 @@ public class HomeController : Controller
     {
         if (!string.IsNullOrEmpty(newData))
         {
-            var post = new Post
-            {
-                Login = HttpContext.Session.GetString("User") ?? "",
-                Informacja = newData,
-                PostInfo = new PostInfo
-                {
-                    Przedmiot = przedmiot ?? "",
-                    Prowadzacy = prowadzacy ?? "",
-                    Data = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                    CzyPytanie = czyPytanie
-                }
-            };
-            _context.Posts.Add(post);
-            _context.SaveChanges();
-        }
-        return RedirectToAction("ManageData");
+			var username = HttpContext.Session.GetString("User") ?? "";
+        	var loginUser = _context.Logins.FirstOrDefault(l => l.LoginName == username);
+        	if (loginUser == null) return RedirectToAction("Index");
+
+        	var post = new Post
+        	{
+            	LoginId = loginUser.Id,      
+            	Informacja = newData,
+            	PostInfo = new PostInfo
+            	{
+                	Przedmiot = przedmiot ?? "",
+                	Prowadzacy = prowadzacy ?? "",
+                	Data = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                	CzyPytanie = czyPytanie
+            	}	
+        	};
+        	_context.Posts.Add(post);
+        	_context.SaveChanges(); 
+       }
+       return RedirectToAction("ManageData");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -82,10 +88,13 @@ public class HomeController : Controller
     {
         if (!string.IsNullOrEmpty(tresc))
         {
+        	var username = HttpContext.Session.GetString("User") ?? "";
+        	var loginUser = _context.Logins.FirstOrDefault(l => l.LoginName == username);
+        	if (loginUser == null) return RedirectToAction("Index");
             _context.PostReplies.Add(new PostReply
             {
                 PostId = postId,
-                Login = HttpContext.Session.GetString("User") ?? "",
+				LoginId = loginUser.Id,
                 Tresc = tresc,
                 Data = DateTime.Now.ToString("yyyy-MM-dd HH:mm")
             });

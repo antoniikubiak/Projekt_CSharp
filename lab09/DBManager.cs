@@ -228,15 +228,20 @@ public class Login
     public string LoginName { get; set; } = "";
     public string Mail { get; set; } = "";
     public string Haslo { get; set; } = "";
+
+    public ICollection<Post>? Posts { get; set; }
+    public ICollection<PostReply>? Replies { get; set; }
 }
 
 public class Post
 {
     public int Id { get; set; }
-    public string Login { get; set; } = "";
+    public int LoginId { get; set; } 
     public string Informacja { get; set; } = "";
+
+    public Login Login { get; set; } = null!;
     public PostInfo? PostInfo { get; set; }
-    public List<PostReply> Replies { get; set; } = [];
+    public ICollection<PostReply>? Replies { get; set; }
 }
 
 public class PostInfo
@@ -246,6 +251,7 @@ public class PostInfo
     public string? Prowadzacy { get; set; }
     public string Data { get; set; } = "";
     public bool CzyPytanie { get; set; }
+
     public Post Post { get; set; } = null!;
 }
 
@@ -253,10 +259,12 @@ public class PostReply
 {
     public int Id { get; set; }
     public int PostId { get; set; }
-    public string Login { get; set; } = "";
+    public int LoginId { get; set; }
     public string Tresc { get; set; } = "";
     public string Data { get; set; } = "";
+
     public Post Post { get; set; } = null!;
+    public Login Login { get; set; } = null!;
 }
 
 public class UserInfo
@@ -269,11 +277,13 @@ public class UserInfo
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Login> Logins { get; set; }
-    public DbSet<Post> Posts { get; set; }
-    public DbSet<PostInfo> PostInfos { get; set; }
-    public DbSet<PostReply> PostReplies { get; set; }
-    public DbSet<UserInfo> UserInfos { get; set; }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Login> Logins { get; set; } = default!;
+    public DbSet<Post> Posts { get; set; } = default!;
+    public DbSet<PostInfo> PostInfos { get; set; } = default!;
+    public DbSet<PostReply> PostReplies { get; set; } = default!;
+    public DbSet<UserInfo> UserInfos { get; set; } = default!;
 
     public static string CalculateMD5(string input)
     {
@@ -283,9 +293,6 @@ public class AppDbContext : DbContext
         byte[] hashBytes = md5.ComputeHash(inputBytes);
         return Convert.ToHexString(hashBytes).ToLower();
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite("Data Source=myDataBase.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -302,9 +309,19 @@ public class AppDbContext : DbContext
             .WithOne(r => r.Post)
             .HasForeignKey(r => r.PostId);
 
+        modelBuilder.Entity<Login>()
+            .HasMany(l => l.Posts)
+            .WithOne(p => p.Login)
+            .HasForeignKey(p => p.LoginId);
+
+        modelBuilder.Entity<Login>()
+            .HasMany(l => l.Replies)
+            .WithOne(r => r.Login)
+            .HasForeignKey(r => r.LoginId);
+
         modelBuilder.Entity<Login>().HasData(
             new Login { Id = 1, LoginName = "admin", Mail = "admin@example.com", Haslo = CalculateMD5("1234") },
-            new Login { Id = 2, LoginName = "user", Mail = "user@example.com", Haslo = CalculateMD5("qwerty") }
+            new Login { Id = 2, LoginName = "user",  Mail = "user@example.com",  Haslo = CalculateMD5("qwerty") }
         );
     }
 }

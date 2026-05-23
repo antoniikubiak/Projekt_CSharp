@@ -2530,29 +2530,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\skalm\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/home/szymon/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\skalm\\C#Project\\Projekt_CSharp\\lab09\\lab09.csproj",
+      "projectUniqueName": "/home/szymon/RiderProjects/Projekt_CSharp/lab09/lab09.csproj",
       "projectName": "lab09",
-      "projectPath": "C:\\Users\\skalm\\C#Project\\Projekt_CSharp\\lab09\\lab09.csproj",
-      "packagesPath": "C:\\Users\\skalm\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\skalm\\C#Project\\Projekt_CSharp\\lab09\\obj\\",
+      "projectPath": "/home/szymon/RiderProjects/Projekt_CSharp/lab09/lab09.csproj",
+      "packagesPath": "/home/szymon/.nuget/packages/",
+      "outputPath": "/home/szymon/RiderProjects/Projekt_CSharp/lab09/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\skalm\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        "/home/szymon/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2615,7 +2611,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

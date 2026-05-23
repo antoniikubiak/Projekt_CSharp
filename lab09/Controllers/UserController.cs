@@ -14,11 +14,16 @@ public class UserController : Controller
 
     public IActionResult Profile(string username)
     {
+    	var loginUser = _context.Logins.FirstOrDefault(l => l.LoginName == username);
+
         var posty = _context.Posts
-            .Include(p => p.PostInfo)
-            .Where(p => p.Login == username)
-            .OrderByDescending(p => p.Id)
-            .ToList();
+        	.Include(p => p.PostInfo)
+        	.Include(p => p.Login)
+        	.Include(p => p.Replies)
+        	.Include(r => r.Login)
+        	.Where(p => p.LoginId == loginUser.Id)
+        	.OrderByDescending(p => p.Id)
+        	.ToList();
 
         var userInfo = _context.UserInfos.FirstOrDefault(u => u.Login == username);
 
