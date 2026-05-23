@@ -1,5 +1,16 @@
 @model List<string>
 
+@{
+    var przedmioty = (List<lab09.Przedmiot>)ViewData["Przedmioty"]!;
+    var prowadzacy = (List<lab09.Prowadzacy>)ViewData["Prowadzacy"]!;
+    var error = ViewData["Error"] as string;
+}
+
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
 <h2>Dodaj wpis</h2>
 
 <form asp-action="AddData" method="post" style="max-width: 500px">
@@ -9,11 +20,23 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Przedmiot</label>
-        <input type="text" name="przedmiot" class="form-control" required />
+        <select name="przedmiotId" class="form-control">
+            <option value="">-- Wybierz przedmiot --</option>
+            @foreach (var p in przedmioty)
+            {
+                <option value="@p.Id">@p.Nazwa</option>
+            }
+        </select>
     </div>
     <div class="mb-3">
-        <label class="form-label">Prowadzący (opcjonalnie)</label>
-        <input type="text" name="prowadzacy" class="form-control" />
+        <label>Prowadzący</label>
+        <select name="prowadzacyId" class="form-control">
+            <option value="">-- Wybierz prowadzącego --</option>
+            @foreach (var p in prowadzacy)
+            {
+                <option value="@p.Id">@p.Nazwa</option>
+            }
+        </select>
     </div>
     <div class="mb-3 form-check">
         <input type="checkbox" name="czyPytanie" class="form-check-input" value="true" />
@@ -21,13 +44,3 @@
     </div>
     <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>
-
-<hr />
-
-<h4>Istniejące rekordy:</h4>
-<ul>
-    @foreach (var info in Model)
-    {
-        <li>@info</li>
-    }
-</ul>

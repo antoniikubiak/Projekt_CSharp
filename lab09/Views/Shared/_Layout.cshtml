@@ -16,33 +16,43 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     @if (Context.Session.GetString("IsLoggedIn") == "true")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Strona główna</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-controller="Statystyki" asp-action="Index">Statystyki</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="ManageData">Dodaj wpis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="AllProfiles">Użytkownicy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Profile" asp-route-username="@Context.Session.GetString("User")">Mój profil</a>
+                        </li>
+                        @if (Context.Session.GetString("User") == "admin")
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Strona główna</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="ManageData">Dodaj wpis</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="AllProfiles">Użytkownicy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Profile" asp-route-username="@Context.Session.GetString("User")">Mój profil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="IO" asp-action="Logout">Wyloguj (@Context.Session.GetString("User"))</a>
-                            </li>
-                        
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="IO" asp-action="Login">Zaloguj się</a>
+                            <li>
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Zarządzanie</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="IO" asp-action="Register">Rejestracja</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="IO" asp-action="Logout">Wyloguj (@Context.Session.GetString("User"))</a>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="IO" asp-action="Login">Zaloguj się</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

@@ -1,5 +1,12 @@
 @{
     ViewData["Title"] = "Rejestracja";
+    var currentUser = Context.Session.GetString("User");
+}
+
+@if (currentUser != "admin")
+{
+    <div class="alert alert-danger">Brak dostępu.</div>
+    return;
 }
 
 <h1>Rejestracja</h1>
@@ -22,5 +29,5 @@
         <label>Hasło</label>
         <input type="password" name="password" />
     </div>
-    <button type="submit">Zarejestruj się</button>
+    <button type="submit">Zarejestruj użytkownika</button>
 </form>

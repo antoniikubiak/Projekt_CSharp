@@ -52,16 +52,24 @@ public class IOController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public IActionResult Register()
-    {
-        return View();
-    }
-
+	[HttpGet]
+	public IActionResult Register()
+	{
+    	if (HttpContext.Session.GetString("User") != "admin")
+		{
+			return RedirectToAction("Index", "Home");
+		}
+    	return View();
+	}
 
     [HttpPost]
     public IActionResult Register(string login, string mail, string password)
     {
-        if (_context.Logins.Any(l => l.LoginName == login))
+    	if (HttpContext.Session.GetString("User") != "admin")
+        {
+			return RedirectToAction("Index", "Home");
+        }
+		if (_context.Logins.Any(l => l.LoginName == login))
         {
             HttpContext.Session.SetString("Error", "Login już istnieje!");
             return RedirectToAction("Register");
@@ -81,6 +89,6 @@ public class IOController : Controller
         });
         _context.SaveChanges();
 
-        return RedirectToAction("Login");
+        return RedirectToAction("Register");
     }
 }

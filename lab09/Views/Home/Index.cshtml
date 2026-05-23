@@ -31,6 +31,14 @@
                     <a asp-controller="User" asp-action="Profile" asp-route-username="@wpis.Login.LoginName">
                         <strong>@wpis.Login.LoginName</strong>
                     </a>
+                    @if (wpis.PostInfo?.Przedmiot != null)
+                    {
+                        <span class="badge bg-primary">@wpis.PostInfo.Przedmiot.Nazwa</span>
+                    }
+                    @if (wpis.PostInfo?.Prowadzacy != null)
+                    {
+                        <span class="badge bg-secondary">@wpis.PostInfo.Prowadzacy.Nazwa</span>
+                    }
                     @if (wpis.PostInfo?.CzyPytanie == true)
                     {
                         <span class="badge bg-warning text-dark">Pytanie</span>
@@ -39,16 +47,6 @@
                 <small class="text-muted">@wpis.PostInfo?.Data</small>
             </div>
             <p class="card-text mb-2">@wpis.Informacja</p>
-            <div class="d-flex gap-2 mb-3">
-                @if (!string.IsNullOrEmpty(wpis.PostInfo?.Przedmiot))
-                {
-                    <span class="badge bg-primary">@wpis.PostInfo.Przedmiot</span>
-                }
-                @if (!string.IsNullOrEmpty(wpis.PostInfo?.Prowadzacy))
-                {
-                    <span class="badge bg-secondary">@wpis.PostInfo.Prowadzacy</span>
-                }
-            </div>
 
             @if (replies.Any())
             {
